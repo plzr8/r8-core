@@ -2,7 +2,7 @@
   "name": "r8-core",
   "version": "1.0.0",
   "description": "21st century rating app",
-  "main": "src/app.js",
+  "main": "src/app.ts",
   "scripts": {
     "test": "node src/app.js"
   },
@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/plzr8/r8-core#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10",
+    "ts-md5": "^1.2.4"
   }
 }
