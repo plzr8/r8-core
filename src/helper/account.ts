@@ -41,7 +41,13 @@ export default class AccountManager {
         });
     }
 
-    delete(username : string, password : string) {
-
+    async delete(username : string, password : string) {
+        const dbInstance = await Database.getDbInstance();
+        dbInstance.collection('users').deleteOne({username : username, password : password},
+            (err, obj) => {
+            if(err) console.log("Could not find user ${username}");
+            else console.log(`Successfully delete user ${username}`)
+            }
+        );
     }
 }
