@@ -23,6 +23,7 @@ export default class UserHandler {
         this._queryUser();
         this._deleteUser();
         this._changePicture();
+        this._resetPassword();
     }
 
     _queryUser() {
@@ -73,7 +74,6 @@ export default class UserHandler {
                const users = await this.access.getUsers();
                users.findOne(new ObjectID(req.headers['id']), (err, result) => {
                    users.updateOne({username : result['username']}, {$set: {image : newImageLink}}, (err, result) => {
-                       console.log(err);
                        if(!err) {
                            res.json({status : "Successfully updated profile image."})
                        }
@@ -83,26 +83,25 @@ export default class UserHandler {
             }
         });
     }
-}
 
-export class User {
-
-    id : ObjectID;
-    username : string;
-    password : string;
-    email : string;
-    image : string;
-    description : string;
-    json;
-
-    constructor(raw) {
-        this.id = raw['_id'];
-        this.username = raw['username'];
-        this.password = raw['password'];
-        this.email = raw['email'];
-        this.image = raw['image'];
-        this.description = raw['description'];
-        this.json = raw;
+    _resetPassword() {
+        this.app.patch(`${basePath}/resetPassword`, async (req, res) => {
+            const newPassword = req.body['password'];
+            if(newPassword == null) {
+                res.json({error : "No password was provided"});
+            }
+            else {
+                const users = await this.access.getUsers();
+                users.findOne(new ObjectID(req.headers['id']), (err, result) => {
+                    users.updateOne({username : result['username']}, {$set: {password : newPassword}}, (err, result) => {
+                        if(!err) {
+                            res.json({status : "Successfully changed password."})
+                        }
+                        else res.json({error : "User does not exist."});
+                    })
+                });
+            }
+        });
     }
 }
 
