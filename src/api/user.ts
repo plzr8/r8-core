@@ -69,7 +69,7 @@ class UserAccess {
     }
 
     async getUsers() {
-        const dbInstance : Db = await this.database.getDbInstance();
+        const dbInstance : Db = await Database.getDbInstance();
         return await dbInstance.collection('users');
     }
 

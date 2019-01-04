@@ -24,7 +24,7 @@ export default class AccountManager {
 
 
     async create(username, password, email) {
-        const dbInstance : Db = await this.database.getDbInstance();
+        const dbInstance : Db = await Database.getDbInstance();
         dbInstance.collection('users').insertOne({
             username : username,
             password : password,

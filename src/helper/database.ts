@@ -6,15 +6,11 @@ const databaseName = 'plzdb';
 
 export default class Database {
 
-    client : MongoClient;
+    constructor() {}
 
-    constructor() {
-        this.client = new MongoClient(url);
-    }
-
-    async getDbInstance() {
+    static async getDbInstance() {
         try {
-            const connection = await this.client.connect();
+            const connection = await MongoClient.connect(url, { useNewUrlParser: true });
             return connection.db(databaseName);
         }
         catch (e) {

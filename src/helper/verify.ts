@@ -6,7 +6,7 @@ import Database from "./database";
 import {ObjectID} from 'mongodb';
 
 export async function isKeyValid(database : Database, id, secret) {
-    const db = await database.getDbInstance();
+    const db = await Database.getDbInstance();
     try {
         let user = new User(await db.collection('users').findOne(new ObjectID(id)));
         let username = user.username;
