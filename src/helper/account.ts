@@ -44,9 +44,9 @@ export default class AccountManager {
     async delete(username : string, password : string) {
         const dbInstance = await Database.getDbInstance();
         dbInstance.collection('users').deleteOne({username : username, password : password},
-            (err, obj) => {
+            (err, _) => {
             if(err) console.log("Could not find user ${username}");
-            else console.log(`Successfully delete user ${username}`)
+            else console.log(`Successfully deleted user ${username}`)
             }
         );
     }

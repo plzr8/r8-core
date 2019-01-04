@@ -22,6 +22,7 @@ export default class UserHandler {
     registerPaths() {
         this._queryUser();
         this._deleteUser();
+        this._changePicture();
     }
 
     _queryUser() {
@@ -60,6 +61,26 @@ export default class UserHandler {
                     res.json({error : "Incorrect password."});
                 }
             });
+        });
+    }
+    _changePicture() {
+        this.app.patch(`${basePath}/changeImage`, async (req, res) => {
+            const newImageLink = req.body['image'];
+            if(newImageLink == null) {
+                res.json({error : "No image was provided."})
+            }
+            else {
+               const users = await this.access.getUsers();
+               users.findOne(new ObjectID(req.headers['id']), (err, result) => {
+                   users.updateOne({username : result['username']}, {$set: {image : newImageLink}}, (err, result) => {
+                       console.log(err);
+                       if(!err) {
+                           res.json({status : "Successfully updated profile image."})
+                       }
+                       else res.json({error : "User does not exist."});
+                   })
+               });
+            }
         });
     }
 }

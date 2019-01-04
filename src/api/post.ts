@@ -1,5 +1,5 @@
 
-const basePath = 'api/post';
+const basePath = '/api/post';
 
 export default class PostHandler {
 

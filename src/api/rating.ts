@@ -1,5 +1,5 @@
 
-const basePath = 'api/rating';
+const basePath = '/api/rating';
 
 export default class RatingHandler {
 
