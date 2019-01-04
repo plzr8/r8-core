@@ -4,7 +4,7 @@
   "description": "21st century rating app",
   "main": "src/app.ts",
   "scripts": {
-    "test": "node src/app.js"
+    "test": "node --experimental-modules src/app.js "
   },
   "repository": {
     "type": "git",

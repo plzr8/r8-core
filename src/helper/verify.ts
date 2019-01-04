@@ -3,17 +3,16 @@ import {User} from "../api/user";
 import {Md5} from 'ts-md5/dist/md5'
 import Database from "./database";
 
-export async function isKeyValid(database : Database, id, key) {
+import {ObjectID} from 'mongodb';
+
+export async function isKeyValid(database : Database, id, secret) {
     const db = await database.getDbInstance();
     try {
-        let user = new User(await db.collection('users').findOne({id : id}));
+        let user = new User(await db.collection('users').findOne(new ObjectID(id)));
         let username = user.username;
         let password = user.password;
         let unencryptedKey = `${username};${password}`;
-        if(hash(unencryptedKey) === key) {
-            return true;
-        }
-        else return false;
+        return (await hash(unencryptedKey)) == secret;
     }
     catch (e) {
         return false;
