@@ -37,7 +37,7 @@ app.use('/api', (req, res, next) => __awaiter(this, void 0, void 0, function* ()
         next();
 }));
 const accountManager = new account_1.default(app, database);
-const postHandler = new post_1.default(app);
+const postHandler = new post_1.default(app, database);
 const ratingHandler = new rating_1.default(app);
 const userHandler = new user_1.default(app, database, accountManager);
 app.get('/', (req, res) => res.send('Hello World!'));

@@ -31,7 +31,7 @@ app.use('/api', async (req, res, next) => {
 
 const accountManager = new AccountManager(app, database);
 
-const postHandler = new PostHandler(app);
+const postHandler = new PostHandler(app, database);
 const ratingHandler = new RatingHandler(app);
 const userHandler = new UserHandler(app, database, accountManager);
 
