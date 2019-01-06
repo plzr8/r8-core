@@ -1,5 +1,5 @@
 import Database from "../helper/database";
-import {Db} from 'mongodb';
+import {Db, ObjectID} from 'mongodb';
 
 const basePath = '/api/post';
 
@@ -16,6 +16,7 @@ export default class PostHandler {
 
     _registerRoutes() {
         this._createPost();
+        this._deletePost();
     }
 
     _createPost() {
@@ -41,7 +42,36 @@ export default class PostHandler {
     }
 
     _deletePost() {
-
+        this.app.delete(`${basePath}/delete`, async (req, res) => {
+            const userId = req.headers['id'];
+            const dbInstance = await Database.getDbInstance();
+            const postId = req.body['id'];
+            console.log(postId);
+            if(postId == null) {
+                res.send({error : "Please specify a post ID"});
+                return;
+            }
+            dbInstance.collection('posts').findOne(new ObjectID(postId), (err, result) => {
+                if(err) {
+                    res.send({error : "Could not find specified post"});
+                    return;
+                }
+                if(result != null && result['userId'] == userId) {
+                    dbInstance.collection('posts').deleteOne({_id : new ObjectID(postId)}, (err, _) => {
+                        if(err){
+                            res.send({error : "Could not delete post."});
+                            console.log(err);
+                        }
+                        else {
+                            res.send({status : `Successfully deleted post.`})
+                        }
+                    });
+                }
+                else {
+                    res.send({error : "You don't have permission to do that."});
+                }
+            });
+        })
     }
 
 }
