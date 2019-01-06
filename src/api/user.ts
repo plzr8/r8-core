@@ -12,21 +12,21 @@ export default class UserHandler {
     access : UserAccess;
     manager : AccountManager;
 
-    constructor(app, database, manager) {
+    constructor(app, manager) {
         this.app = app;
-        this.access = new UserAccess(database);
+        this.access = new UserAccess();
         this.manager = manager;
         this.registerPaths()
     }
 
     registerPaths() {
-        this._queryUser();
-        this._deleteUser();
-        this._changePicture();
-        this._resetPassword();
+        this.queryUser();
+        this.deleteUser();
+        this.changePicture();
+        this.resetPassword();
     }
 
-    _queryUser() {
+    private queryUser() {
         this.app.get(`${basePath}/:username`, async (req, res) => {
             let users = await this.access.getUsers();
             users.findOne({username : req.params['username']}, (err, result) => {
@@ -43,7 +43,7 @@ export default class UserHandler {
             });
         });
     }
-    _deleteUser() {
+    private deleteUser() {
         this.app.delete(`${basePath}/delete`, async (req, res) => {
             const id = req.headers['id'];
             const users = await this.access.getUsers();
@@ -64,7 +64,7 @@ export default class UserHandler {
             });
         });
     }
-    _changePicture() {
+    private changePicture() {
         this.app.patch(`${basePath}/changeImage`, async (req, res) => {
             const newImageLink = req.body['image'];
             if(newImageLink == null) {
@@ -84,7 +84,7 @@ export default class UserHandler {
         });
     }
 
-    _resetPassword() {
+    private resetPassword() {
         this.app.patch(`${basePath}/resetPassword`, async (req, res) => {
             const newPassword = req.body['password'];
             if(newPassword == null) {
@@ -106,12 +106,6 @@ export default class UserHandler {
 }
 
 class UserAccess {
-
-    database : Database;
-
-    constructor(database) {
-        this.database = database;
-    }
 
     async getUsers() {
         const dbInstance : Db = await Database.getDbInstance();

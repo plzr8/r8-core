@@ -6,20 +6,18 @@ const basePath = '/api/post';
 export default class PostHandler {
 
     app;
-    database : Database;
 
-    constructor(app, database) {
+    constructor(app) {
         this.app = app;
-        this.database = database;
-        this._registerRoutes();
+        this.registerRoutes();
     }
 
-    _registerRoutes() {
-        this._createPost();
-        this._deletePost();
+    private registerRoutes() {
+        this.createPost();
+        this.deletePost();
     }
 
-    _createPost() {
+    private createPost() {
         this.app.post(`${basePath}/create`, async (req, res) => {
             const userId = req.headers['id'];
             const dbInstance : Db = await Database.getDbInstance();
@@ -41,7 +39,7 @@ export default class PostHandler {
         })
     }
 
-    _deletePost() {
+    private deletePost() {
         this.app.delete(`${basePath}/delete`, async (req, res) => {
             const userId = req.headers['id'];
             const dbInstance = await Database.getDbInstance();

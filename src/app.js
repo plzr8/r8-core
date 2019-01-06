@@ -37,9 +37,9 @@ app.use('/api', (req, res, next) => __awaiter(this, void 0, void 0, function* ()
         next();
 }));
 const accountManager = new account_1.default(app, database);
-const postHandler = new post_1.default(app, database);
+const postHandler = new post_1.default(app);
 const ratingHandler = new rating_1.default(app);
-const userHandler = new user_1.default(app, database, accountManager);
+const userHandler = new user_1.default(app, accountManager);
 app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 //# sourceMappingURL=app.js.map

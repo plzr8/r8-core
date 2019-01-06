@@ -31,9 +31,9 @@ app.use('/api', async (req, res, next) => {
 
 const accountManager = new AccountManager(app, database);
 
-const postHandler = new PostHandler(app, database);
+const postHandler = new PostHandler(app);
 const ratingHandler = new RatingHandler(app);
-const userHandler = new UserHandler(app, database, accountManager);
+const userHandler = new UserHandler(app, accountManager);
 
 
 app.get('/', (req, res) => res.send('Hello World!'));
