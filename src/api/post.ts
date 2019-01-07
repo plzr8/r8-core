@@ -44,7 +44,6 @@ export default class PostHandler {
             const userId = req.headers['id'];
             const dbInstance = await Database.getDbInstance();
             const postId = req.body['id'];
-            console.log(postId);
             if(postId == null) {
                 res.send({error : "Please specify a post ID"});
                 return;
@@ -69,6 +68,12 @@ export default class PostHandler {
                     res.send({error : "You don't have permission to do that."});
                 }
             });
+        })
+    }
+
+    private query() {
+        this.app.get(`${basePath}/query`, (req, res) => {
+
         })
     }
 

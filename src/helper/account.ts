@@ -6,10 +6,7 @@ const defaultDescription = "A new user";
 
 export default class AccountManager {
 
-    database : Database;
-
-    constructor(app, database) {
-        this.database = database;
+    constructor(app) {
         app.post('/account/create', (req, res) => {
             const credentials = req.body;
             console.log(req.body);

@@ -29,7 +29,7 @@ app.use('/api', async (req, res, next) => {
     else next();
 });
 
-const accountManager = new AccountManager(app, database);
+const accountManager = new AccountManager(app);
 
 const postHandler = new PostHandler(app);
 const ratingHandler = new RatingHandler(app);
